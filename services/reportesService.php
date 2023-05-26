@@ -144,13 +144,13 @@ try {
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp-pulse.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'alertas@imsapanama.com';                     //SMTP username
+    $mail->Username   = 'test@test.com';                     //SMTP username
     $mail->Password   = 'TBjXrRCBXttA';                               //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('alertas@imsapanama.com', 'SINAPROC EMERGENCIAS');
+    $mail->setFrom('test@test.com', 'SINAPROC EMERGENCIAS');
     $mail->addAddress('juantopx@gmail.com', 'User Pruebas');     //Add a recipient
    /*
    $mail->addAddress('ellen@example.com');               //Name is optional
