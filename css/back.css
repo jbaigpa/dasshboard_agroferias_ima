@@ -1,0 +1,19 @@
+.brand-link {
+	height: 140px;
+}
+
+.brand-link img
+{
+	width: 120px;
+	margin-left: 20%;
+}
+
+.sidebar-collapse .brand-link {
+	height: 60px;
+}
+
+.sidebar-collapse .brand-link img
+{
+	width: 45px;
+	margin-left: 10%;
+}
