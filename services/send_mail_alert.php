@@ -32,13 +32,13 @@ echo sendMail($mail,$_POST['alertatitulo'],$_POST['alertatxt'],$_POST['color'],$
 function sendMail($mail,$titulo,$alertatxt,$color,$fecha,$region,$insertid){
 
 $lemail  = 'mailerr';
-$elbody = '<center><img src="https://snpc-ws.aig.gob.pa/sinaproc/sso_sinaproc/img/sbanner_'.$color.'.jpg" /></center>';
+$elbody = '<center><img src="https://agroferias-ws.aig.gob.pa/sinaproc/sso_sinaproc/img/sbanner_'.$color.'.jpg" /></center>';
 $elbody .= '<h2>Se ha reportado una nueva ALERTA '.strtoupper($color).':<h2>';
 $elbody .= '<h2>'.htmlentities($titulo).'</h2>';
 $elbody .= '<p><strong>Descripci&oacute;n:</strong> '.htmlentities(strip_tags($alertatxt)).'</p>';
 $elbody .= '<p><strong>Fecha y Hora:</strong> '.$fecha.'</p>';
 $elbody .= '<p><strong>SMS:</strong>'.htmlentities($titulo).'</p>';
-$elbody .= '<p><strong>Url:</strong>https://snpc-ws.aig.gob.pa/alertas/alerta_'.$insertid.'.html</p>';
+$elbody .= '<p><strong>Url:</strong>https://agroferias-ws.aig.gob.pa/alertas/alerta_'.$insertid.'.html</p>';
 $elbody .= '<p><strong>Regi&oacute;n(es):</strong></p>'.$region;
 
 try {

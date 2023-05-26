@@ -78,7 +78,7 @@
 
 function genHtml($titulo,$alertatxt,$color,$fecha,$region){
 
-	$elbody = '<div style="text-align:center" class="divhead divhead-'.$color.'"><img src="https://snpc-ws.aig.gob.pa/sinaproc/sso_sinaproc/img/sbanner_'.$color.'.jpg" /></div>';
+	$elbody = '<div style="text-align:center" class="divhead divhead-'.$color.'"><img src="https://agroferias-ws.aig.gob.pa/sinaproc/sso_sinaproc/img/sbanner_'.$color.'.jpg" /></div>';
 	$elbody .= '<div class="zone"><h2>Se ha reportado una nueva ALERTA '.strtoupper($color).':<h2>';
 	$elbody .= '<h2>'.$titulo.'</h2>';
 	$elbody .= '<p><strong>Descripcion:</strong> '.strip_tags($alertatxt).'</p>';

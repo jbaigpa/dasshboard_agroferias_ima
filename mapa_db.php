@@ -311,7 +311,7 @@ if($islogin == 0){
 		 pointo[ii]["id"] = "<?php echo $rowGetReports['id']; ?>";
 		 pointo[ii]["incidente_desc"] = "<?php echo $rowGetReports['incidente_desc']; ?>";
 		 pointo[ii]["created_at"] = "<?php echo $rowGetReports['created_at']; ?>";
-		 pointo[ii]["img"] = "<img class='iconmapapop' src='https://snpc-ws.aig.gob.pa/sinaproc/sso_sinaproc/img/estatus_<?php echo $myestatus; ?>.png' />";
+		 pointo[ii]["img"] = "<img class='iconmapapop' src='https://agroferias-ws.aig.gob.pa/sinaproc/sso_sinaproc/img/estatus_<?php echo $myestatus; ?>.png' />";
 		 pointo[ii]["estatus"] = "<?php echo $estatus[$myestatus] ?>";
 		 estatusCount['<?php echo $myestatus ?>'] = estatusCount['<?php echo $myestatus ?>'] + 1;
 		 pointo[ii]["estatus_desc"] = "<?php echo $rowGetReports['estd1'] ?>";
@@ -358,7 +358,7 @@ if($islogin == 0){
 		  if(pp.estatus_desc !==""){
 			mycontent = mycontent + "<div>Observación: "+ pp.estatus_desc +"</div>";
 		  }
-		 mycontent = mycontent + "<div class='areaVerMas' data='"+pp.id+"'><a target='_newwellwin' href='https://snpc-ws.aig.gob.pa/sinaproc/sso_sinaproc/verReporte.php?id="+pp.id+"'>Ver más</a></div>";
+		 mycontent = mycontent + "<div class='areaVerMas' data='"+pp.id+"'><a target='_newwellwin' href='https://agroferias-ws.aig.gob.pa/sinaproc/sso_sinaproc/verReporte.php?id="+pp.id+"'>Ver más</a></div>";
 		  
 		  const template = {
 			  // autocasts as new PopupTemplate()

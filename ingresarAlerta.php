@@ -635,7 +635,7 @@ function cambiacolortipo(){
 
 //
 function sendEmailReport(dd){
-	var urlmailreport = "https://snpc-ws.aig.gob.pa/sinaproc/sso_sinaproc/services/send_mail_alert.php";
+	var urlmailreport = "https://agroferias-ws.aig.gob.pa/sinaproc/sso_sinaproc/services/send_mail_alert.php";
 	fetch(urlmailreport, {
 	  method: "POST",
 	  body: getFormData(dd)

@@ -330,7 +330,7 @@ function PreCambiaCorregimientos(th,cc,dd){
 
 //
 function rellenaProvincias(plat,lev,code){
-	var myApi = "https://snpc-ws.aig.gob.pa/ws_data/getProvincias.php?level="+lev+"&code="+code;
+	var myApi = "https://agroferias-ws.aig.gob.pa/ws_data/getProvincias.php?level="+lev+"&code="+code;
 	var levelname = ["Provincia","Distrito","Corregimiento"];
 	var region = ["","Distrito","Corregimiento"];
 	jQuery.getJSON( myApi, function( admdata ){

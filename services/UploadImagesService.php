@@ -3,7 +3,7 @@
 date_default_timezone_set('America/Panama');
 $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'bmp' , 'pdf' , 'doc' , 'ppt'); // valid extensions
 $path = '/mnt/snpc/public_html/filedata/qh_files/'; // upload directory
-$public = 'https://snpc-ws.aig.gob.pa//filedata/qh_files/';
+$public = 'https://agroferias-ws.aig.gob.pa//filedata/qh_files/';
 if($_FILES['file']['name'] && isset($_POST['qhid'])){
 	$img = $_FILES['file']['name'];
 	$tmp = $_FILES['file']['tmp_name'];
