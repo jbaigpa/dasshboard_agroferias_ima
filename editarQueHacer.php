@@ -35,7 +35,7 @@ if($id == "0" || $id == 0){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SINAPROC - Que Hacer</title>
+    <title>IMA AGROFERIAS - Que Hacer</title>
 	<?php
 		include("services/header.php");
 		$active['quehacer'] = "active";		
@@ -227,7 +227,7 @@ if($id == "0" || $id == 0){
 
         <footer class="main-footer">
             <div class="d-none d-sm-block">
-                <b>SINAPROC DASH</b> <?php echo $versionDash; ?>
+                <b>IMA AGROFERIAS DASH</b> <?php echo $versionDash; ?>
             </div>
 
         </footer>

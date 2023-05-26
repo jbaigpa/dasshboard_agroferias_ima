@@ -150,7 +150,7 @@ try {
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('test@test.com', 'SINAPROC EMERGENCIAS');
+    $mail->setFrom('test@test.com', 'IMA AGROFERIAS EMERGENCIAS');
     $mail->addAddress('juantopx@gmail.com', 'User Pruebas');     //Add a recipient
    /*
    $mail->addAddress('ellen@example.com');               //Name is optional
@@ -164,7 +164,7 @@ try {
 */
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Mensaje enviado desde SINAPROC EMERGENCIAS';
+    $mail->Subject = 'Mensaje enviado desde IMA AGROFERIAS EMERGENCIAS';
     $mail->Body    = 'Hola '.$d["nombre"].', su reporte "'.$d["incidentetxt"].'" ha sido registrado con el id: <b>'.$out["insertId"].'</b>';
     $mail->AltBody = '';
 

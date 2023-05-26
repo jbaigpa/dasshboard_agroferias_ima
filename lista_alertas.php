@@ -47,7 +47,7 @@ function diferenciaMinus($datetime_1){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Lista de Alertas - SINAPROC</title>
+    <title>Lista de Alertas - IMA AGROFERIAS</title>
 
 	<?php
 		include("services/header.php");

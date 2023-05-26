@@ -86,7 +86,7 @@ if($islogin == 0){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Reportes - SINAPROC</title>
+    <title>Reportes - IMA AGROFERIAS</title>
 
 	<?php
 		include("services/header.php");
@@ -368,7 +368,7 @@ if($islogin == 0){
         const geojsonLayer = new GeoJSONLayer({
           title: "Reportes",
           url: url,
-          copyright: "SINAPROC",
+          copyright: "IMA AGROFERIAS",
 
           featureReduction: clusterConfig,
 

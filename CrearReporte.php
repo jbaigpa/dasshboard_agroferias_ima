@@ -2,7 +2,7 @@
 include('services/security.php');
 include('services/connection.php');
 $title['crearreporte'] = 'Crear Reporte';
-$lainstitucion = 'SINAPROC';
+$lainstitucion = 'IMA AGROFERIAS';
 $estatus = array(0=>"No Leido",5=>"Verificando",10=>"Atendido",99=>"Eliminado/Cancelado");
 $mycolor = array(0=>"#AAAAAA",5=>"#FFFF00",10=>"#00FF00",99=>"#FF0000");
 $sqlGetProvincias = "SELECT * FROM `provincia`";

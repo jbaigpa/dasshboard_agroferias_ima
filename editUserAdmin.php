@@ -32,7 +32,7 @@ $rowGetUser = mysqli_fetch_assoc($resGetUser);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SINAPROC - Módulo para editar Administradores</title>
+    <title>IMA AGROFERIAS - Módulo para editar Administradores</title>
 	<?php
 		include("services/header.php");
 		$active['profile'] = "active";
@@ -140,7 +140,7 @@ $rowGetUser = mysqli_fetch_assoc($resGetUser);
 									<div class="card-body">
 										<div class="form-group">
                                             <label for="fuente">* Fuente:</label>
-                                            <input value="<?php echo $rowGetUser['institucion'] ?>" tabindex="4" type="text" class="form-control" id="institucion" placeholder="Fuente del usuario, por ejemplo: SINAPROC u otra entidad.">
+                                            <input value="<?php echo $rowGetUser['institucion'] ?>" tabindex="4" type="text" class="form-control" id="institucion" placeholder="Fuente del usuario, por ejemplo: IMA AGROFERIAS u otra entidad.">
                                         </div>
                                         <div class="form-group">
                                             <label for="telefono">* Teléfono:</label>
@@ -179,7 +179,7 @@ $rowGetUser = mysqli_fetch_assoc($resGetUser);
 
         <footer class="main-footer">
             <div class="d-none d-sm-block">
-                <b>SINAPROC DASH</b> <?php echo $versionDash; ?>
+                <b>IMA AGROFERIAS DASH</b> <?php echo $versionDash; ?>
             </div>
 
         </footer>

@@ -12,7 +12,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<title>SINAPROC - Alerta</title>
+		<title>IMA AGROFERIAS - Alerta</title>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
 		<link rel="icon" type="image/png" href="img/favicon.png">
@@ -78,7 +78,7 @@
 
 function genHtml($titulo,$alertatxt,$color,$fecha,$region){
 
-	$elbody = '<div style="text-align:center" class="divhead divhead-'.$color.'"><img src="https://agroferias-ws.aig.gob.pa/sinaproc/sso_sinaproc/img/sbanner_'.$color.'.jpg" /></div>';
+	$elbody = '<div style="text-align:center" class="divhead divhead-'.$color.'"><img src="https://agroferias-ws.aig.gob.pa/agroferias_admin/img/sbanner_'.$color.'.jpg" /></div>';
 	$elbody .= '<div class="zone"><h2>Se ha reportado una nueva ALERTA '.strtoupper($color).':<h2>';
 	$elbody .= '<h2>'.$titulo.'</h2>';
 	$elbody .= '<p><strong>Descripcion:</strong> '.strip_tags($alertatxt).'</p>';

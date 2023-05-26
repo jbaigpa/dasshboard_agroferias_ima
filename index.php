@@ -25,7 +25,7 @@ if (@$_SESSION['isLogged']) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="icon" type="image/png" href="../img/favicon.png">
 
-    <title>Módulo de Administración SINAPROC</title>
+    <title>Módulo de Administración IMA AGROFERIAS</title>
 
 
 </head>

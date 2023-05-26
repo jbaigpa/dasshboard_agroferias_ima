@@ -1,2 +1,2 @@
-ErrorDocument 404 https://agroferias-ws.aig.gob.pa/sinaproc/sso_sinaproc/index.php
-ErrorDocument 500 https://agroferias-ws.aig.gob.pa/sinaproc/sso_sinaproc/index.php
+ErrorDocument 404 https://agroferias-ws.aig.gob.pa/agroferias_admin/index.php
+ErrorDocument 500 https://agroferias-ws.aig.gob.pa/agroferias_admin/index.php

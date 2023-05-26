@@ -32,7 +32,7 @@ echo sendMail($mail,$_POST['alertatitulo'],$_POST['alertatxt'],$_POST['color'],$
 function sendMail($mail,$titulo,$alertatxt,$color,$fecha,$region,$insertid){
 
 $lemail  = 'mailerr';
-$elbody = '<center><img src="https://agroferias-ws.aig.gob.pa/sinaproc/sso_sinaproc/img/sbanner_'.$color.'.jpg" /></center>';
+$elbody = '<center><img src="https://agroferias-ws.aig.gob.pa/agroferias_admin/img/sbanner_'.$color.'.jpg" /></center>';
 $elbody .= '<h2>Se ha reportado una nueva ALERTA '.strtoupper($color).':<h2>';
 $elbody .= '<h2>'.htmlentities($titulo).'</h2>';
 $elbody .= '<p><strong>Descripci&oacute;n:</strong> '.htmlentities(strip_tags($alertatxt)).'</p>';
@@ -58,7 +58,7 @@ try {
 	#-- Enable implicit TLS encryption set - SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS --
 
     //Recipients
-    $mail->setFrom('no-reply@sinaproc.gob.pa', 'SINAPROC EMERGENCIAS');
+    $mail->setFrom('no-reply@ima.gob.pa', 'IMA AGROFERIAS EMERGENCIAS');
     $mail->addAddress('juantopx@gmail.com', 'User Pruebas');     //Add a recipient
   
    $mail->addCC('eiglesias@aig.gob.pa');               //Name is optional
@@ -79,7 +79,7 @@ try {
 */
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Alerta desde SINAPROC';
+    $mail->Subject = 'Alerta desde IMA AGROFERIAS';
     $mail->Body    = $elbody;
     $mail->AltBody = '';
 
