@@ -1,7 +1,7 @@
 <?php
 
 $active['ventasdia'] = "";
-$active['report'] = "";
+$active['ventastotal'] = "";
 $active['ifototal'] = "";
 $active['ifodia'] = "";
 $active['close'] = "";

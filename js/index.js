@@ -93,7 +93,7 @@ const doLogin = async () => {
         }
 		
         if (response == "OK") {
-          $(location).attr("href", "reportes.php");
+          $(location).attr("href", "ventas.php?dia=1");
         }
 		
 		

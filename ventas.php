@@ -3,11 +3,20 @@ date_default_timezone_set('America/Panama');
 include('services/security.php');
 include('services/connection.php');
 
+if(isset($_GET["dia"])){
+	$hoy = date('Y-m-d');
+	$ventasmenu = 'ventasdia';
+	$titledia = "Hoy";
+	$urlservice = "services/reportesService.php?dia=1";
+	$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t2.nombre as vendedor_nombre FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula WHERE t1.fecha_compra = '$hoy' ORDER BY t1.fecha_compra DESC;";
+}else{
+	#total
+	$ventasmenu = 'ventastotal';
+	$titledia = "Total";
+	$urlservice = "services/reportesService.php";
+	$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t2.nombre as vendedor_nombre FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula ORDER BY t1.fecha_compra DESC;";
 
-$hoy = date('Y-m-d');
-
-$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t2.nombre as vendedor_nombre FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula AND t1.fecha_compra = '$hoy' ORDER BY t1.fecha_compra DESC;";
-
+}
 $resGetReports = mysqli_query($con, $sqlGetReports);
 $numOfReports = mysqli_num_rows($resGetReports);
 
@@ -56,7 +65,7 @@ if($islogin == 0){
 
 	<?php
 		include("services/header.php");
-		$active['ventasdia'] = "active";
+		$active[$ventasmenu] = "active";
 	?>
 	<style>
 		.wrapper .card-body {
@@ -108,7 +117,7 @@ if($islogin == 0){
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                Ventas hoy: <span id="numofrepo"><?php echo $numOfReports." compradores | Ingresos: B/.".number_format($ventatotal, 2, '.', ',').")"; ?></span>
+                                Ventas <?php echo $titledia; ?>: <span id="numofrepo"><?php echo $numOfReports." compradores | Ingresos: B/.".number_format($ventatotal, 2, '.', ',').")"; ?></span>
                             </div>
                         </div>
                         <div class="card-body">
@@ -133,14 +142,14 @@ if($islogin == 0){
 											
 											?>
                                                 <tr>
-                                                    <td style="width: 7%;"><?php echo $rowGetReports['id'] ?></td>
-                                                    <td style="width: 15%;"><?php echo $rowGetReports['cedula'] ?></td>
-													<td style="width: 20%;"><?php echo $rowGetReports['lugar_compra'] ?></td>
-													<td style="width: 10%;"><?php echo $rowGetReports['fecha_compra'] ?></td>
-													<td style="width: 20%;"><?php echo $rowGetReports['vendedor_nombre']. " (".$rowGetReports['vendedor'].")" ?></td>
-                                                    <td style="width: 12%;"><?php echo ucwords(strtolower($rowGetReports['producto'])); ?></td>
-													<td style="width: 11%;"><?php echo "B/.".number_format($rowGetReports['precio'], 2, '.', ','); ?></td> 
-                                                    <td style="width: 5%;">
+                                                    <td><?php echo $rowGetReports['id'] ?></td>
+                                                    <td><?php echo $rowGetReports['cedula'] ?></td>
+													<td><?php echo $rowGetReports['lugar_compra'] ?></td>
+													<td><?php echo $rowGetReports['fecha_compra'] ?></td>
+													<td><?php echo $rowGetReports['vendedor_nombre']. " (".$rowGetReports['vendedor'].")" ?></td>
+                                                    <td><?php echo ucwords(strtolower($rowGetReports['producto'])); ?></td>
+													<td><?php echo "B/.".number_format($rowGetReports['precio'], 2, '.', ','); ?></td> 
+                                                    <td>
 													<a href="verReporte.php?id=<?php echo $rowGetReports['id']; ?>" class="btn btn-primary btn-sm" title="Ver"><i class="fas fa-eye"></i></a>
 													</td>
 												</tr>
@@ -218,7 +227,7 @@ function refrescaData(delta){
 	var form_data = {'keynote':'sjdksjiUIdhywwdmnwhjUEHiE083890kws2989sdj8282','delta':delta};
 	ciclosrunning = 1;
 	$.ajax({
-		url: "services/reportesService.php",
+		url: '<?php echo $urlservice; ?>',
 	    method:"POST",
 		data: form_data,
 		dataType: 'json',
@@ -237,18 +246,19 @@ function refrescaData(delta){
 			 var tablin = $('#reportes tbody');
 			 tablin.empty();
 			 var myheader = "<tr>";
+	
 			 myheader = myheader + "<th>ID</th>";
-             myheader = myheader + "<th>Tipo</th>";
-			 myheader = myheader + "<th>Provincia</th>";
-             myheader = myheader + "<th>Creado</th>";
-			 myheader = myheader + "<th>Modificado</th>";
-             myheader = myheader + "<th>Estatus</th>";
+             myheader = myheader + "<th>Cedula</th>";
+			 myheader = myheader + "<th>Lugar</th>";
+             myheader = myheader + "<th>Fecha Compra</th>";
+			 myheader = myheader + "<th>Usuario</th>";
+             myheader = myheader + "<th>Producto</th>";
+			 myheader = myheader + "<th>Precio</th>";
 			 myheader = myheader + "<th>Accion</th>";
              myheader = myheader + "</tr>";
              $('#reportes').find('thead').html(myheader);
-			/* mytabla = $('#reportes').DataTable({
-				ajax: res // "services/new_3.json"
-			 });*/
+			
+			 var precio = 0;
 			 var numOfReports = 0;
 			 $.each(res.data, function (a, b) {
                 tablin.append("<tr><td>"+b[0]+"</td>" +
@@ -257,12 +267,15 @@ function refrescaData(delta){
 					"<td>"+b[3]+"</td>"+
 					"<td>"+b[4]+"</td>"+
 					"<td>"+b[5]+"</td>"+
-					"<td>"+b[6]+"</td>");
+					"<td>"+b[6]+"</td>"+
+					"<td>"+b[7]+"</td>");
 					numOfReports = numOfReports + 1;
+					precio = precio + Number(b[8]);
 					
             });
-			
-			$("#numofrepo").html(numOfReports);
+			//var priceformat = precio.toFixed(2);
+			var priceformat = priceformat.toLocaleString('en-US');
+			$("#numofrepo").html(numOfReports+" compradores | Ingresos: B/."+priceformat);
 			
 			$("#reportes").DataTable({
 				order: [[3, 'desc']],

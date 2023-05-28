@@ -1,6 +1,6 @@
 <?php
 
-# ---- CrearReporteService---- 2022/10/10
+# ---- ReporteService---- 2022/10/10
 # --- 
 # ------------- JBENAVIDES (PISOFAREJULU) ---------
 
@@ -40,15 +40,20 @@ if(isset($_POST['keynote']) && isset($_POST['delta'])){
 echo json_encode($out,JSON_PRETTY_PRINT);
 
 function CheckDatas($mysql,$dt){
-	
+	$hoy = date('Y-m-d');
 	$nowdate = date('Y-m-d H:i:s');
 	
+	if(isset($_GET["dia"])){
+		$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t2.nombre as vendedor_nombre FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula WHERE t1.fecha_compra = '$hoy' ORDER BY t1.fecha_compra DESC;";
+	}else{
+		$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t2.nombre as vendedor_nombre FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula ORDER BY t1.fecha_compra DESC;";
+	}
 	
-	$sqlGetReports = "SELECT t1.id, t1.incidente_desc, t1.provincia, t1.created_at as creado, t2.created_at as modificado, t2.estatus, t2.estatus_desc FROM reportes as t1 LEFT JOIN reportes_historial as t2 on t1.id = t2.reporte_id WHERE t2.created_at IN ( SELECT MAX(t3.created_at) FROM reportes_historial as t3 GROUP BY t3.reporte_id ) OR t2.created_at IS NULL ORDER BY t1.created_at DESC;";
 	$tmp = [];
 	$fila = [];
 	$fila['data'] = [];
 	$cc = 0;
+	$preciototal = 0;
 	if($salida = $mysql -> query($sqlGetReports)){
 		
 		while($row = mysqli_fetch_assoc($salida))
@@ -64,28 +69,24 @@ function CheckDatas($mysql,$dt){
 			while($ii < count($tmp))
             {
 				
-					//print_r($tmp[$ii]['id']);
 					$fila['data'][$ii][0] = $tmp[$ii]['id'];
-					$fila['data'][$ii][1] = $tmp[$ii]['incidente_desc'];
-					$fila['data'][$ii][2] = $tmp[$ii]['provincia'];
-					$fila['data'][$ii][3] = $tmp[$ii]['creado'];
-					$fila['data'][$ii][4] = $tmp[$ii]['modificado'];
+					$fila['data'][$ii][1] = $tmp[$ii]['cedula'];
+					$fila['data'][$ii][2] = $tmp[$ii]['lugar_compra'];
+					$fila['data'][$ii][3] = $tmp[$ii]['fecha_compra'];
+					$fila['data'][$ii][4] = $tmp[$ii]['vendedor_nombre']." (".$tmp[$ii]['vendedor'].")";
+					$fila['data'][$ii][5] = $tmp[$ii]['producto'];
+					$fila['data'][$ii][6] = number_format($tmp[$ii]['precio'], 2, '.', ',');
+					/*
 					if($tmp[$ii]['modificado'] == ""){
 						$fila['data'][$ii][4] = "";
-					}
+					}*/
 					
-					$estatus = array(0=>"No Leido",5=>"Verificando",10=>"Atendido",99=>"Eliminado/Cancelado");
-					$myestatus = $tmp[$ii]['estatus'];
-					
-					if($myestatus == ""){
-						$fila['data'][$ii][5] = "No leído";
-						$myestatus = 0;
-					}
-					$fila['data'][$ii][5] = '<img style="height: 24px;width:24px" src="img/estatus_'.$myestatus.'.png"/> '.$estatus[$myestatus];
 					
 					$accion = '<a href="verReporte.php?id='.$tmp[$ii]['id'].'" class="btn btn-primary btn-sm" title="Ver"><i class="fas fa-eye"></i></a>';
-					$fila['data'][$ii][6] = $accion;
-				
+					$fila['data'][$ii][7] = $accion;
+
+					$fila['data'][$ii][8] = $tmp[$ii]['precio']; // Precio puro para la suma
+					
 				$ii++;
 				
             }

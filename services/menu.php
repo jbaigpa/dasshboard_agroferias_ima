@@ -14,7 +14,7 @@
 								<?php if( $_SESSION['level'] >= 500 ){ ?>
 								
 								<li class="nav-item item">
-                                    <a href="ventas.php" class="nav-link <?php echo $active['ventasdia']; ?>">
+                                    <a href="ventas.php?dia=1" class="nav-link <?php echo $active['ventasdia']; ?>">
                                         <i class="fa  fa-shopping-cart  nav-icon"></i>
 										<p>Ventas Día</p>
                                     </a>
@@ -28,7 +28,7 @@
                                 </li>
 								
 								<li class="nav-item item">
-                                    <a href="reportes.php" class="nav-link <?php echo $active['report']; ?>">
+                                    <a href="ventas.php" class="nav-link <?php echo $active['report']; ?>">
                                         <i class="fa fa-cart-plus nav-icon"></i>
 										<p>Ventas Total</p>
                                     </a>
@@ -99,6 +99,17 @@
 										<i class="nav-icon fa fa-mobile"></i>
 											<p>
 												Crear Usuarios App
+											</p>
+									 </a>
+								</li>
+								<?php } ?>
+
+								<?php if( $_SESSION['level'] >= 800 ){ ?>
+								<li class="nav-item">
+									<a href="Supervisores.php" class="nav-link <?php echo $active['createuserapp']; ?>">
+										<i class="nav-icon fa fa-mobile"></i>
+											<p>
+												Supervisores
 											</p>
 									 </a>
 								</li>
