@@ -1,9 +1,8 @@
 <?php
 
 # ---- ReporteService---- 2022/10/10
-# --- 
 # ------------- JBENAVIDES (PISOFAREJULU) ---------
-
+#-----------------------------------------
 date_default_timezone_set('America/Panama');
 include("connection.php");
 
@@ -44,9 +43,9 @@ function CheckDatas($mysql,$dt){
 	$nowdate = date('Y-m-d H:i:s');
 	
 	if(isset($_GET["dia"])){
-		$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t2.nombre as vendedor_nombre FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula WHERE t1.fecha_compra = '$hoy' ORDER BY t1.fecha_compra DESC;";
+		$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t1.supervisor, t2.nombre as vendedor_nombre, device FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula WHERE t1.fecha_compra = '$hoy' ORDER BY t1.fecha_compra DESC;";
 	}else{
-		$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t2.nombre as vendedor_nombre FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula ORDER BY t1.fecha_compra DESC;";
+		$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t1.supervisor, t2.nombre as vendedor_nombre, device FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula ORDER BY t1.fecha_compra DESC;";
 	}
 	
 	$tmp = [];
@@ -75,7 +74,10 @@ function CheckDatas($mysql,$dt){
 					$fila['data'][$ii][3] = $tmp[$ii]['fecha_compra'];
 					$fila['data'][$ii][4] = $tmp[$ii]['vendedor_nombre']." (".$tmp[$ii]['vendedor'].")";
 					$fila['data'][$ii][5] = $tmp[$ii]['producto'];
-					$fila['data'][$ii][6] = number_format($tmp[$ii]['precio'], 2, '.', ',');
+					$fila['data'][$ii][6] = $tmp[$ii]['device'];
+					$fila['data'][$ii][7] = $tmp[$ii]['supervisor'];
+					$fila['data'][$ii][8] = number_format($tmp[$ii]['precio'], 2, '.', ',');
+					
 					/*
 					if($tmp[$ii]['modificado'] == ""){
 						$fila['data'][$ii][4] = "";
@@ -83,9 +85,9 @@ function CheckDatas($mysql,$dt){
 					
 					
 					$accion = '<a href="verReporte.php?id='.$tmp[$ii]['id'].'" class="btn btn-primary btn-sm" title="Ver"><i class="fas fa-eye"></i></a>';
-					$fila['data'][$ii][7] = $accion;
+					$fila['data'][$ii][8] = $accion;
 
-					$fila['data'][$ii][8] = $tmp[$ii]['precio']; // Precio puro para la suma
+					$fila['data'][$ii][9] = $tmp[$ii]['precio']; // Precio puro para la suma
 					
 				$ii++;
 				

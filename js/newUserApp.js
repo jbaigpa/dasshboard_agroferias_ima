@@ -150,7 +150,7 @@ function generaCrypt(pass){
   /* grecaptcha.execute(siteKey, { action: action }).then(function (_token) { */
     $.ajax({
       type: "post",
-      url: "./services/newUserApp.php",
+      url: "./services/newUserAppService.php",
       beforeSend: () => {
         $("#loader").css("display", "block");
         $("#lbl").css("display", "none");
@@ -175,7 +175,7 @@ function generaCrypt(pass){
           return;
         }
 		
-        if (response == "ERROR") {
+        if (response.indexOf("ERROR") == 0) {
           Swal.fire(
             "Error!",
             "Ha ocurrido un error al insertar el usuario.",
@@ -190,7 +190,7 @@ function generaCrypt(pass){
 			"Cuenta de usuario registrada.",
 			"success"
           ).then(() => {
-          $(location).attr("href", "adminUsers.php");
+          $(location).attr("href", "appUsers.php");
         });
 		}
       },

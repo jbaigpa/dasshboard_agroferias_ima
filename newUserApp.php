@@ -118,7 +118,7 @@ $resGetProductos = mysqli_query($con, $sqlGetProductos);
                                             <select name="provincia" id="provincia" class="form-control">
 												<option value="NO_SELECTED">seleccione</option>
 												<?php while ($rowGetProvincias = mysqli_fetch_assoc($resGetProvincias)) { ?>
-														<option value="<?php echo $rowGetProvincias['codigo'] ?>"><?php echo $rowGetProvincias['nombre'] ?></option>
+														<option value="<?php echo ucwords(mb_strtolower($rowGetProvincias['nombre'])) ?>"><?php echo $rowGetProvincias['nombre'] ?></option>
 												<?php } ?>
 											</select>
                                         </div>

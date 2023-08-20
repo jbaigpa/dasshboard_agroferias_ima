@@ -7,16 +7,19 @@ if(isset($_GET["dia"])){
 	$hoy = date('Y-m-d');
 	$ventasmenu = 'ventasdia';
 	$titledia = "Hoy";
-	$urlservice = "services/reportesService.php?dia=1";
-	$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t2.nombre as vendedor_nombre FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula WHERE t1.fecha_compra = '$hoy' ORDER BY t1.fecha_compra DESC;";
+	#$urlservice = "services/reportesService.php?dia=1";
+	$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t1.device, t2.nombre as vendedor_nombre, t1.supervisor FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula WHERE t1.fecha_compra = '$hoy' ORDER BY t1.fecha_compra DESC LIMIT 0, 10;";
+	$urlservice = 'services/ventas_per_page.php?dia=1';
 }else{
 	#total
 	$ventasmenu = 'ventastotal';
 	$titledia = "Total";
-	$urlservice = "services/reportesService.php";
-	$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t2.nombre as vendedor_nombre FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula ORDER BY t1.fecha_compra DESC;";
+	#$urlservice = "services/reportesService.php";
+	$urlservice = 'services/ventas_per_page.php';
+	$sqlGetReports = "SELECT t1.id, t1.cedula, t1.producto, t1.lugar_compra, t1.fecha_compra, t1.precio, t1.vendedor, t1.device, t2.nombre as vendedor_nombre, t1.supervisor FROM ventas as t1 JOIN operadores as t2 on t1.vendedor = t2.cedula ORDER BY t1.fecha_compra DESC LIMIT 0, 10;";
 
 }
+
 $resGetReports = mysqli_query($con, $sqlGetReports);
 $numOfReports = mysqli_num_rows($resGetReports);
 
@@ -26,6 +29,7 @@ while ($rowGetReports = mysqli_fetch_assoc($resGetReports)) {
 }
 
 $resGetReports = mysqli_query($con, $sqlGetReports);
+
 
 $estatus = array(0=>"No Leido",5=>"Verificando",10=>"Atendido",99=>"Eliminado/Cancelado");
 
@@ -67,6 +71,7 @@ if($islogin == 0){
 		include("services/header.php");
 		$active[$ventasmenu] = "active";
 	?>
+
 	<style>
 		.wrapper .card-body {
 		  padding: 0.7rem 1rem;
@@ -89,6 +94,10 @@ if($islogin == 0){
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+				
+				<li class="nav-item" id="areaexport">
+                    
                 </li>
                 <!--
                 <li class="nav-item d-none d-sm-inline-block">
@@ -117,10 +126,19 @@ if($islogin == 0){
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                Ventas <?php echo $titledia; ?>: <span id="numofrepo"><?php echo $numOfReports." compradores | Ingresos: B/.".number_format($ventatotal, 2, '.', ',').")"; ?></span>
+                                Ventas <?php echo $titledia; ?>: <span id="numofrepo"></span>
                             </div>
+						
+							<div style="padding:0px;float: right;display: inline-block;">
+								desde: <input type="date" id="fechadesde">
+								hasta: <input type="date" id="fechahasta">
+							</div>
                         </div>
+						<div id="filtros"></div>
+						
                         <div class="card-body">
+						
+						
                             <div class="dataTables_wrapper dt-bootstrap4">
                                 <div class="table-responsive">
                                     <table id="reportes" class="table table-hover table-condensed table-striped">
@@ -131,8 +149,10 @@ if($islogin == 0){
 												<th>Lugar</th>
 												<th>Fecha Compra</th>
                                                 <th>Usuario</th>
+												<th>Device</th>
 												<th>Producto</th>
 												<th>Precio</th>
+												<th>Supervisor</th>
 												<th>Accion</th>
                                             </tr>
                                         </thead>
@@ -147,14 +167,30 @@ if($islogin == 0){
 													<td><?php echo $rowGetReports['lugar_compra'] ?></td>
 													<td><?php echo $rowGetReports['fecha_compra'] ?></td>
 													<td><?php echo $rowGetReports['vendedor_nombre']. " (".$rowGetReports['vendedor'].")" ?></td>
+													<td><?php echo $rowGetReports['device'] ?></td>
                                                     <td><?php echo ucwords(strtolower($rowGetReports['producto'])); ?></td>
 													<td><?php echo "B/.".number_format($rowGetReports['precio'], 2, '.', ','); ?></td> 
+													<td><?php echo $rowGetReports['supervisor']; ?></td> 
                                                     <td>
 													<a href="verReporte.php?id=<?php echo $rowGetReports['id']; ?>" class="btn btn-primary btn-sm" title="Ver"><i class="fas fa-eye"></i></a>
 													</td>
 												</tr>
                                             <?php } ?>
                                         </tbody>
+										<tfoot>
+											<tr>
+												 <th>ID</th>
+                                               	<th>Cedula</th>
+												<th>Lugar</th>
+												<th>Fecha Compra</th>
+                                                <th>Usuario</th>
+												<th>Device</th>
+												<th>Producto</th>
+												<th>Precio</th>
+												<th>Supervisor</th>
+												<th>Accion</th>
+											</tr>
+										</tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -184,10 +220,17 @@ if($islogin == 0){
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-   <!-- <script src="https://www.google.com/recaptcha/api.js?render=6LeiVcYaAAAAAJdD1cpDx2jP8PSGokBgnG9hKDob"></script>-->
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="js/admin_lte/adminlte.min.js"></script>
@@ -199,26 +242,33 @@ if($islogin == 0){
 	var ciclos = -1;
 	var ciclosrunning =0;
 	$(document).ready(function () {
+	
+ // Obtener la fecha actual en formato YYYY-MM-DD
+ var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+
+        // Asignar la fecha actual como el valor máximo del campo de fecha
+        document.getElementById("fechahasta").max = today;
+		document.getElementById("fechadesde").max = today;
+
+		document.getElementById("fechahasta").value = today;
     
-	mytabla = $('#reportes').DataTable(
-			{
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-            },
-            "bLengthChange" : false,
-			order: [[0, 'desc']],
-        }
-    );
+	creatableau();
 	
 	//refrescaData(delta);
 	
+	/*
 	ciclos = setInterval(function () {
 		if(ciclosrunning == 0){
 			refrescaData(delta);
 			console.log("Refrescando...")
 		}
 		
-		}, 90000);
+		}, 90000);*/
 	
 });
 
@@ -242,7 +292,7 @@ function refrescaData(delta){
 			if(res=='invalid'){
 			  console.log("Error 001")
 			}else{
-			 $('#reportes').DataTable().destroy();
+			 mytabla.destroy();
 			 var tablin = $('#reportes tbody');
 			 tablin.empty();
 			 var myheader = "<tr>";
@@ -252,8 +302,10 @@ function refrescaData(delta){
 			 myheader = myheader + "<th>Lugar</th>";
              myheader = myheader + "<th>Fecha Compra</th>";
 			 myheader = myheader + "<th>Usuario</th>";
+			 myheader = myheader + "<th>Device</th>";
              myheader = myheader + "<th>Producto</th>";
 			 myheader = myheader + "<th>Precio</th>";
+			 myheader = myheader + "<th>Supervisor</th>";
 			 myheader = myheader + "<th>Accion</th>";
              myheader = myheader + "</tr>";
              $('#reportes').find('thead').html(myheader);
@@ -266,21 +318,20 @@ function refrescaData(delta){
 					"<td>"+b[2]+"</td>"+
 					"<td>"+b[3]+"</td>"+
 					"<td>"+b[4]+"</td>"+
-					"<td>"+b[5]+"</td>"+
 					"<td>"+b[6]+"</td>"+
-					"<td>"+b[7]+"</td>");
+					"<td>"+b[5]+"</td>"+
+					"<td>"+b[9]+"</td>"+
+					"<td>"+b[7]+"</td>"+
+					"<td>"+b[8]+"</td>");
 					numOfReports = numOfReports + 1;
-					precio = precio + Number(b[8]);
+					precio = precio + Number(b[9]);
 					
             });
 			//var priceformat = precio.toFixed(2);
-			var priceformat = priceformat.toLocaleString('en-US');
+			var priceformat = precio.toLocaleString('en-US');
 			$("#numofrepo").html(numOfReports+" compradores | Ingresos: B/."+priceformat);
 			
-			$("#reportes").DataTable({
-				order: [[3, 'desc']],
-			});
-			
+			creatableau();
 			}
 		 },
 		 error: function(e){
@@ -291,8 +342,79 @@ function refrescaData(delta){
 		  }          
 		});
 }
+
+function creatableau(){
+	mytabla = $('#reportes').DataTable(
+			{
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+			serverSide: true, // Habilitar server-side processing
+			ajax: {
+				url: '<?php echo $urlservice; ?>',// URL del script en el servidor
+				type: 'POST', // Método HTTP utilizado para las solicitudes
+				data: function(d) {
+					d.fechadesde = $('#fechadesde').val();
+					d.fechahasta = $('#fechahasta').val();
+				}
+				},
+				
+			columns: [
+				{ data: 'id' },
+				{ data: 'cedula' },
+				{ data: 'lugar_compra' },
+				{ data: 'fecha_compra' },
+				{ data: 'vendedor_nombre' },
+				{ data: 'device' },
+				{ data: 'producto' },				
+				{ data: 'precio' },
+				{ data: 'supervisor' },
+				{ data: 'accion' }
+				],
+            "bLengthChange" : false,
+			order: [[0, 'desc']],
+			dom: 'Bfrtip',
+			buttons: [
+				'csv', 'excel'
+			],
+			//
+			initComplete: function (settings, json) {
+				$('#numofrepo').text(formatNumberWithCommas(json.recordsTotal)+" compradores");
+				var thecolums = this.api().column([2, 4]);
+				
+					thecolums.every(function () {
+						var column = this;
+						var select = $('<select style="width: 140px;"><option value="">- LUGAR - </option></select>')
+							.appendTo($(column.header()).empty())
+							.on('change', function () {
+								var val = $.fn.dataTable.util.escapeRegex($(this).val());
+	 
+								column.search(val ? '^' + val + '$' : '', true, false).draw();
+							});
+	 
+						column
+							.data()
+							.unique()
+							.sort()
+							.each(function (d, j) {
+								select.append('<option value="' + d + '">' + d + '</option>');
+							});
+					});
+			},
+			//
+			
+        });
+	
+		mytabla.buttons().container().appendTo('#reportes_wrapper .dataTables_filter');
+		
+}
 //
-	</script>
+function formatNumberWithCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+//
+</script>
 </body>
 
 </html>

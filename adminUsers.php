@@ -114,11 +114,13 @@ if($islogin == 0){
 													<?php 
 													# Solo usuarios logueados con nivel 500 o usuarios listados menor a 800
 													# Administradores
-													if($_SESSION['level'] == 500){
+													if($_SESSION['level'] >= 500){
 													?>
 													<a href="viewUser.php?id=<?php echo md5($rowGetUsers['admin_id']); ?>" class="btn btn-primary btn-sm" title="Ver"><i class="fas fa-eye"></i></a>
+													
 													<?php
-													}elseif($_SESSION['level'] > 800 && $rowGetUsers['level'] < 900){
+													}
+													if($_SESSION['level'] >= 800  &&$rowGetUsers['level'] < 900){
 													?>
                                                     <a href="editUserAdmin.php?id=<?php echo md5($rowGetUsers['admin_id']); ?>" class="btn btn-primary btn-sm" title="Editar"><i class="fas fa-pen"></i></a>&nbsp;<a onclick="apagarUser('<?php echo md5($rowGetUsers['admin_id']); ?>','<?php echo $rowGetUsers['name']; ?>','<?php echo $rowGetUsers['level']; ?>')" class="btn btn-danger btn-sm" title="Eliminar"><i class="fas fa-trash"></i></a>
                                                     

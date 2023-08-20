@@ -63,6 +63,14 @@
 									</a>
 								</li>
 								<?php } ?>
+								<?php if( $_SESSION['level'] >= 100 ){ ?>
+								<li class="nav-item">
+									<a href="mapa_agroferias.php" class="nav-link <?php echo $active['map']; ?>">
+										<i class=" nav-icon fas fa-map"></i>
+										<p>Mapa</p>
+									</a>
+								</li>
+								<?php } ?>
 								
                         <!--  menu-is-opening menu-open -->
 						<?php if( $_SESSION['level'] >= 800 ){ ?>
