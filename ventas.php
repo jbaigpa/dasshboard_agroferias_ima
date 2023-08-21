@@ -1,4 +1,9 @@
 <?php
+#---- AGO 20 2023
+#-- Pendiente Integrar la Exportacion con los datos totales 
+#--- Porque solo aparecen los filtrados por ServerSide
+#--- Tambien pendiente concluir el tema del calendario
+#------------------------------------
 date_default_timezone_set('America/Panama');
 include('services/security.php');
 include('services/connection.php');
@@ -76,6 +81,14 @@ if($islogin == 0){
 		.wrapper .card-body {
 		  padding: 0.7rem 1rem;
 		}
+
+		.btn-checolo {
+		font-size: 12px;
+		font-weight: 700;
+		display: inline-block;
+		vertical-align: middle;
+		background-color: green;
+		}
 	</style>
 
 </head>
@@ -132,6 +145,7 @@ if($islogin == 0){
 							<div style="padding:0px;float: right;display: inline-block;">
 								desde: <input type="date" id="fechadesde">
 								hasta: <input type="date" id="fechahasta">
+								<a href="javascript:void(0)" onclick="checolo()" class="btn btn-primary btn-checolo">BUSCAR</a>
 							</div>
                         </div>
 						<div id="filtros"></div>
@@ -380,6 +394,7 @@ function creatableau(){
 			//
 			initComplete: function (settings, json) {
 				$('#numofrepo').text(formatNumberWithCommas(json.recordsTotal)+" compradores");
+				$('#fechadesde').val(json.initDate);
 				var thecolums = this.api().column([2, 4]);
 				
 					thecolums.every(function () {

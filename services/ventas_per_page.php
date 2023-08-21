@@ -50,9 +50,15 @@ while ($row = $result->fetch_assoc()) {
 // Obtener el total de registros (sin filtro)
 if(!empty($soloDia)){
     $totalRecordsQuery = "SELECT COUNT(*) as count FROM ventas WHERE fecha_compra = '$hoy'";
+    $initDate = $hoy;
+    
 }else{
     $totalRecordsQuery = "SELECT COUNT(*) as count FROM ventas";
+    $initDateQuery = "SELECT MIN(fecha_compra) AS fecha_inicio FROM ventas";
+    $initDateResult = $con->query($initDateQuery);
+    $initDate = $initDateResult->fetch_assoc()['fecha_inicio'];
 }
+
     $totalRecordsResult = $con->query($totalRecordsQuery);
     $totalRecords = $totalRecordsResult->fetch_assoc()['count'];
 
@@ -75,6 +81,7 @@ $response = array(
   "draw" => intval($_POST['draw']),
   "recordsTotal" => $totalRecords,
   "recordsFiltered" => $totalFiltered,
+  "initDate" => $initDate,
   "data" => $results
 );
 
